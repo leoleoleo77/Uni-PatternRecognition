@@ -37,6 +37,7 @@ class Perceptron:
         return y_predicted
 
     def _unit_step_func(self, x):
+        print(np.where(x >= 0, 1, 0))
         return np.where(x >= 0, 1, 0)
 
 

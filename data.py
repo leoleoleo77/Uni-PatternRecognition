@@ -13,6 +13,7 @@
 
 import csv
 from sklearn.preprocessing import MinMaxScaler
+import numpy as np
 
 class HousingData:
     def __init__(this, csv_file_location):
@@ -23,15 +24,15 @@ class HousingData:
         # one hot vector 
         def Standardize_ocean_proximit(ocean_proximity):
             if ocean_proximity == "NEAR BAY":
-                return [1, 0, 0, 0 ,0]
+                return np.array([1, 0, 0, 0 ,0])
             elif ocean_proximity == "<1H OCEAN":
-                return [0, 1, 0, 0 ,0]
+                return np.array([0, 1, 0, 0 ,0])
             elif ocean_proximity == "INLAND":
-                return [0, 0, 1, 0 ,0]
+                return np.array([0, 0, 1, 0 ,0])
             elif ocean_proximity == "NEAR OCEAN":
-                return [0, 0, 0 ,1 ,0]
+                return np.array([0, 0, 0 ,1 ,0])
             else:
-                return [0, 0, 0 ,0 ,1]
+                return np.array([0, 0, 0 ,0 ,1])
 
         file = open(this.csv_file_location) # 'E:/Uni/SEM5/anag prwtipwn/housing.csv'
         csvreader = csv.reader(file)
