@@ -87,7 +87,7 @@ def Training_data(percentage):
 
 
 class Perceptron_data:
-    def __init__(this, portion=0.9, threshold=0.4):
+    def __init__(this, portion=0.9, threshold=0.5):
         n_training_data = math.ceil(num_of_data * portion)
         this.training_data = []
         this.training_labels = []
@@ -101,15 +101,18 @@ class Perceptron_data:
                     this.training_labels.append(1.0)
                 else:
                     this.training_labels.append(0.0)
-
-                this.training_data.append(mydata[i]) # Save the training data 
+                this.training_data.append(mydata[i][:-1]) # Save the training data 
+                for x_j in mydata[i][-1]:
+                    this.training_data[i].append(float(x_j)) 
                 this.training_data[i].insert(0, 1.0) # add the weight of the bias at the start of the list
             else:
                 if label < threshold:
                     this.testing_labels.append(1.0)
                 else:
                     this.testing_labels.append(0.0)
-                this.testing_data.append(mydata[i])
+                this.testing_data.append(mydata[i][:-1])
+                for x_j in mydata[i][-1]:
+                    this.testing_data[i- n_training_data].append(float(x_j)) 
                 this.testing_data[i - n_training_data].insert(0, 1.0)
     def Training(this):
         return np.array(this.training_data, dtype=object)
@@ -120,5 +123,4 @@ class Perceptron_data:
     def Testing_labels(this):
         return np.array(this.testing_labels, dtype=object)
 
-    
     

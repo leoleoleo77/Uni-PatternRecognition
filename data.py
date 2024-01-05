@@ -1,16 +1,3 @@
-
-'''
-Προ-επεξεργασία Δεδομένων
-
-1.	Θα πρέπει να αναγνωρίσετε τα υποσύνολα των αριθμητικών και των κατηγορικών χαρακτηριστικών.
-2.	Για το υποσύνολο των αριθμητικών χαρακτηριστικών θα πρέπει να πειραματιστείτε με διαφορετικές τεχνικές 
-    κλιμάκωσης (scaling) των δεδομένων ώστε όλα τα αριθμητικά χαρακτηριστικά να αναπαρίστανται στην ίδια κλίμακα.
-3.	Για το υποσύνολο των κατηγορικών χαρακτηριστικών μπορείτε να χρησιμοποιήσετε την One Hot Vector 
-    κωδικοποίηση ώστε τα εν λόγω δεδομένα να λάβουν διανυσματική αναπαράσταση.
-4.	Θα πρέπει να αναγνωρίσετε αν υπάρχουν αριθμητικά χαρακτηριστικά με ελλιπείς τιμές.
-    Για τις συγκεκριμένες εγγραφές μπορείτε να συμπληρώσετε τις τιμές που απουσιάζουν με την διάμεση τιμή του χαρακτηριστικού.
-'''
-
 import csv
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
@@ -24,15 +11,15 @@ class HousingData:
         # one hot vector 
         def Standardize_ocean_proximit(ocean_proximity):
             if ocean_proximity == "NEAR BAY":
-                return np.array([1, 0, 0, 0 ,0])
+                return [1, 0, 0, 0 ,0]
             elif ocean_proximity == "<1H OCEAN":
-                return np.array([0, 1, 0, 0 ,0])
+                return [0, 1, 0, 0 ,0]
             elif ocean_proximity == "INLAND":
-                return np.array([0, 0, 1, 0 ,0])
+                return [0, 0, 1, 0 ,0]
             elif ocean_proximity == "NEAR OCEAN":
-                return np.array([0, 0, 0 ,1 ,0])
+                return [0, 0, 0 ,1 ,0]
             else:
-                return np.array([0, 0, 0 ,0 ,1])
+                return [0, 0, 0 ,0 ,1]
 
         file = open(this.csv_file_location) # 'E:/Uni/SEM5/anag prwtipwn/housing.csv'
         csvreader = csv.reader(file)
