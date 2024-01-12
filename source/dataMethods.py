@@ -7,6 +7,7 @@ from pathlib import Path
 
 # Set the default print output to be inside the log.txt file
 sys.stdout = open('log.txt', 'w')
+np.set_printoptions(threshold = np.inf)
 # np.set_printoptions(threshold = np.inf)
 
 # Get the relative path of the housing.csv file
@@ -22,6 +23,7 @@ num_of_data = len(mydata)
 # Shuffle the data
 random.shuffle(mydata)
 
+#region methods...
 
 def AllData():
     return mydata
@@ -95,6 +97,8 @@ def No_Median_house_value():
         no_median_house_value_data[i].pop()
     return no_median_house_value_data
 
+#endregion
+
 class Perceptron_Dataset:
     labels = []
     def __init__(this, fold, threshold=0.34):
@@ -141,4 +145,55 @@ class Perceptron_Dataset:
     def Testing_labels(this):
         return np.array(this.testing_labels, dtype=object)
 
+class Linear_Regression_Dataset:
+    labels = []
+    def __init__(this, fold=0):
+        this.sample_size = math.ceil(num_of_data * 0.1)
+        this.training_data = []
+        this.training_labels = []
+        this.testing_data = []
+        this.testing_labels = []
+        this.folds = fold
+        if fold == 0: 
+            this.Create_labels()
+            this.Fix_Multicollinearity
+        this.Resampling_Procedure()
+
+    def Create_labels(this):
+        for i in range(num_of_data):
+            label = mydata[i].pop(8) 
+            Linear_Regression_Dataset.labels.append(label)
+
+    def Fix_Multicollinearity(this):
+            mydata = np.transpose(mydata)
+            mydata.pop(6) # Throw away households
+            mydata.pop(4) # Throw away total_bedrooms
+            mydata = np.transpose(mydata)
+
+    def Resampling_Procedure(this):
+        fold_correct_index = this.sample_size * this.folds
+        k = fold_correct_index
+        for i in range(num_of_data):
+            if i < this.sample_size:
+                this.testing_labels.append(Linear_Regression_Dataset.labels[k])
+                this.testing_data.append(mydata[k][:-1]) # Save the training data 
+                for x_j in mydata[k][-1]:
+                    this.testing_data[i].append(float(x_j)) 
+                this.testing_data[i].insert(0, 1.0) # add the weight of the bias at the start of the list
+            else:
+                this.training_labels.append(Linear_Regression_Dataset.labels[k])
+                this.training_data.append(mydata[k][:-1])
+                for x_j in mydata[k][-1]:
+                    this.training_data[i - this.sample_size].append(float(x_j)) 
+                this.training_data[i - this.sample_size].insert(0, 1.0)
+            k = k + 1 if k < num_of_data - 1 else 0
+
+    def Training(this):
+        return np.array(this.training_data, dtype=object)
+    def Training_labels(this):
+        return np.array(this.training_labels, dtype=object)
+    def Testing(this):
+        return np.array(this.testing_data, dtype=object)
+    def Testing_labels(this):
+        return np.array(this.testing_labels, dtype=object)
     

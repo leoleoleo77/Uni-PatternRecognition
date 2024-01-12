@@ -31,22 +31,18 @@ class Perceptron:
 
     def Mean_absolute_error(this, data, data_labels):
         sum = 0
-        predictions = []
         n = len(data)
         for i in range(n):
             pred_i = this.Predict(data[i]) 
-            predictions.append(pred_i)
             sum += np.abs(pred_i - data_labels[i])
         return sum / n
     
     # Never used, yields the same results as Mean_absolute_error
     def Mean_squared_error(this, data, data_labels):
         sum = 0
-        predictions = []
         n = len(data)
         for i in range(n):
             pred_i = this.Predict(data[i]) 
-            predictions.append(pred_i)
             sum += np.power((pred_i - data_labels[i]), 2)
         return sum / n
     
